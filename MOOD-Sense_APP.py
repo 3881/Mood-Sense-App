@@ -4,7 +4,7 @@ import socket
 from flask import Flask, request, render_template
 
 app = Flask(__name__)
-DB_PATH = "annotations.db"
+DB_PATH = "data/annotations.db"
 
 
 # --- Database setup ----------------------------------------------------------
@@ -22,9 +22,7 @@ def init_db():
     conn.commit()
     conn.close()
 
-
 init_db()
-
 
 # --- Utility: determine local IP --------------------------------------------
 def get_local_ip():
@@ -43,7 +41,7 @@ def get_local_ip():
 @app.route('/')
 def annotate():
     host_url = f"http://{get_local_ip()}:8100/"
-    return render_template("annotate2.html", hostname=host_url)
+    return render_template("annotate-nl.html", hostname=host_url)
 
 
 @app.route('/en')
@@ -73,7 +71,7 @@ def post():
 
 @app.route('/recording', methods=['POST'])
 def record():
-    filename = f"{int(time.time())}-assessment.wav"
+    filename = f"./data/recordings/{int(time.time())}-assessment.wav"
     with open(filename, 'wb') as f:
         f.write(request.data)
     print("Audio saved:", filename)
@@ -82,4 +80,4 @@ def record():
 
 if __name__ == '__main__':
     #app.run(host='0.0.0.0', port=8100, debug=True, ssl_context='adhoc')
-    app.run(host='0.0.0.0', port=8100, debug=True, ssl_context=('host.cert', 'host.key'))
+    app.run(host='0.0.0.0', port=8100, debug=True, ssl_context=('keys/host.cert', 'keys/host.key'))
