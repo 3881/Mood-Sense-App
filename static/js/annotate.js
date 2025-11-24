@@ -2,47 +2,60 @@ const activityList = ["actie", "activiteit", "geluid", "beweging", "gebeurtenis"
 
 window.addEventListener("load" , () => {
     $('.ui.accordion').accordion();
+
+    let buttons = document.querySelectorAll(".ui.button");
+    buttons.forEach(element => {
+        element.addEventListener("click" , change);
+    });
+
+    let slider = document.getElementById("com");
+    slider.addEventListener("change", changeRange);
+
+    let recButton = document.getElementById("recordbutton");
+    recButton.addEventListener("click", record);
 });
 
-function changeColor(btn) {
-    console.log(btn.value);
-    btn.classList.add("green");
-}
+// function changeColor(btn) {
+//     console.log(btn.value);
+//     btn.classList.add("green");
+// }
 
-function changeRange(btn) {
+function changeRange(event) {
+    let btn = event.currentTarget;
     const comcode = ['P-00-XX-99', 'P-00-XX-98', 'P-00-XX-97', 'P-00-XX-96'];
     const colors = ['green', 'yellow', 'orange', 'red'];
     btn.style.background = colors[btn.value];
     httpGetAsync(`/post?button=${comcode[btn.value]}`);
 }
 
-
-function change(btn) {
+function change(event) {
+    btn = event.currentTarget;
     if (!btn.value) btn.value = 0;
     for (let i = 0; i < activityList.length; i++) {
-    if (btn.parentElement.id == activityList[i]) {
-        for (let j = 0; j < btn.parentElement.children.length; j++) {
-        if (btn.parentElement.children[j] == btn) {
-            if (btn.value == 0) {
-            btn.classList.add("active", "green");
-            btn.value = 1;
-            } else {
-            btn.classList.remove("active", "green");
-            btn.value = 0;
+        if (btn.parentElement.id == activityList[i]) {
+            for (let j = 0; j < btn.parentElement.children.length; j++) {
+                if (btn.parentElement.children[j] == btn) {
+                    if (btn.value == 0) {
+                    btn.classList.add("active", "green");
+                    btn.value = 1;
+                    } else {
+                    btn.classList.remove("active", "green");
+                    btn.value = 0;
+                    }
+                }
             }
         }
-        }
     }
-    }
-    httpGetAsync(`/post?button=${btn.id}`);
+    httpGetAsync(`/post?button=${btn.getAttribute("data-item")}`);
 }
 
 function httpGetAsync(url) {
     console.log("Requesting:", url);
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
-    if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-        console.log(xmlHttp.responseText);
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+            console.log(xmlHttp.responseText);
+        }
     };
     xmlHttp.open("GET", url, true);
     xmlHttp.send(null);
@@ -54,43 +67,44 @@ function sendData(blob) {
     const oReq = new XMLHttpRequest();
     oReq.open("POST", url, true);
     oReq.onload = function () {
-    console.log("Upload complete:", oReq.status);
+        console.log("Upload complete:", oReq.status);
     };
     oReq.send(blob);
 }
 
 let mediaRecorder;
-let audioUrl;
+// let audioUrl;
 
-function startRecord(button) {
+function startRecord() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    alert("Audio recording requires HTTPS or localhost.");
-    return;
+        alert("Audio recording requires HTTPS or localhost.");
+        return;
     }
 
     navigator.mediaDevices.getUserMedia({ audio: true })
-    .then(stream => {
-        mediaRecorder = new MediaRecorder(stream);
-        const audioChunks = [];
-        mediaRecorder.ondataavailable = event => audioChunks.push(event.data);
-        mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-        console.log("Recorded audio size:", audioBlob.size);
-        sendData(audioBlob);
-        };
-        mediaRecorder.start();
-    })
-    .catch(err => console.error("Microphone error:", err));
+        .then(stream => {
+            mediaRecorder = new MediaRecorder(stream);
+            const audioChunks = [];
+            mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data);
+            mediaRecorder.onstop = () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                console.log("Recorded audio size:", audioBlob.size);
+                sendData(audioBlob);
+            };
+            mediaRecorder.start();
+        })
+        .catch(err => console.error("Microphone error:", err));
 }
 
-function record(button) {
+function record(event) {
+    let button = event.currentTarget;
     if (button.style.backgroundColor == 'green') {
-    button.style.backgroundColor = 'red';
-    startRecord(button);
+        button.style.backgroundColor = 'red';
+        startRecord();
     } else {
-    if (mediaRecorder && mediaRecorder.state === "recording") {
-        mediaRecorder.stop();
-    }
-    button.style.backgroundColor = 'green';
+        if (mediaRecorder && mediaRecorder.state === "recording") {
+            mediaRecorder.stop();
+        }
+        button.style.backgroundColor = 'green';
     }
 }
