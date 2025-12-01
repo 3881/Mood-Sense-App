@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="static/dist/semantic.css">
+    <link rel="stylesheet" href="static/css/annotate.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="static/dist/components/dropdown.js"></script>
+    <script src="static/dist/semantic.js"></script>
+    <script src="static/js/annotate.js"></script>
+    <script src="static/js/translations.js"></script>
+    <title>Annotate</title>
+  </head>
+  <body>
+
+      <div class="ui content">
+        <div class="ui floating dropdown labeled search icon button">
+          <i class="world icon"></i>
+          <span class="text" data-language-nl="Selecteer taal" data-language-uk="Select language" >Selecteer taal</span>
+          <div id="languages" class="menu">
+            <div class="item" data-language="nl">Nederlands</div>
+            <div class="item" data-language="uk">English</div>
+          </div>
+        </div>
+        <a class="ui button right floated" href="./dashboard" target="_blank">Dashboard</a>
+      </div>
+
+
+      <div class="ui divider"></div>
+
+    <div class="ui grid">
+      <div class="ui content twelve wide column">
+        <div class="ui segment">
+          <a class="ui blue ribbon label" >
+            <span   data-language-nl="Crisis Ontwikkeling Model - niveau" data-language-uk="Crisis Development Model - level">Crisis Ontwikkeling Model - niveau</span>
+          </a>
+  
+          <!-- <input id="com" class="slider" type="range" min="0" max="3" value="0"> -->
+            <div class="ui buttons columns">
+              <button type="button" class="big ui toggle basic button green" data-item="P-00-XX-99">0</button>
+              <button type="button" class="big ui toggle basic button yellow " data-item="P-00-XX-98">1</button>
+              <button type="button" class="big ui toggle basic button orange" data-item="P-00-XX-97">2</button>
+              <button type="button" class="big ui toggle basic button red" data-item="P-00-XX-96">3</button>
+            </div>
+        </div>
+      </div>
+      <div class="ui content four wide column">
+        <div class="ui segment">
+            <a class="ui blue ribbon label" >
+              <span   data-language-nl="Geluidsopname" data-language-uk="Recording">Geluidsopname</span>
+            </a>
+          <button id="recordbutton" type="button" class="big ui button">&nbsp;&nbsp;<i id="rec_icon" class="circle icon"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui cards">
+
+      <div class="ui card">
+        <div class="content">
+            <a class="ui blue ribbon label" >
+              <span data-language-nl="Locatie" data-language-uk="Location">Locatie</span>
+            </a>
+          <div id="locatie" class="ui three column grid">
+            <button type="button" class="ui button column" data-item="E-01-02-02" data-language-nl="Gang" data-language-uk="Hallway" >Gang</button>
+            <button type="button" class="ui button column" data-item="E-01-02-01" data-language-nl="Woonkamer" data-language-uk="Livingroom" >Woonkamer</button>
+            <button type="button" class="ui button column" data-item="E-01-02-03" data-language-nl="Buiten" data-language-uk="Outside" >Buiten</button>
+            <button type="button" class="ui button column" data-item="E-01-02-04" data-language-nl="Slaapkamer" data-language-uk="Bedroom" >Slaapkamer</button>
+            <button type="button" class="ui button column" data-item="E-01-02-05" data-language-nl="Badkamer" data-language-uk="Bathroom" >Badkamer</button>
+            <button type="button" class="ui button column" data-item="E-01-02-06" data-language-nl="Trap" data-language-uk="Stairs" >Trap</button>
+            <button type="button" class="ui button column" data-item="E-XX-XX-XX" data-language-nl="Anders" data-language-uk="Other" >Anders</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui card">
+        <div class="content">
+            <a class="ui blue ribbon label" >
+              <span data-language-nl="Staat" data-language-uk="State">Staat</span>
+            </a>
+          <div id="staat" class="ui three column grid">
+            <button type="button" class="ui button column" data-item="P-00-XX-01" data-language-nl="Zitten" data-language-uk="Sitting" >Zitten</button>
+            <button type="button" class="ui button column" data-item="P-00-XX-02" data-language-nl="Staan" data-language-uk="Standing" >Staan</button>
+            <button type="button" class="ui button column" data-item="P-00-XX-03" data-language-nl="Liggen" data-language-uk="Lying" >Liggen</button>
+            <button type="button" class="ui button column" data-item="P-00-XX-04" data-language-nl="Lopen" data-language-uk="Walking" >Lopen</button>
+            <button type="button" class="ui button column" data-item="P-00-XX-05" data-language-nl="Slapen" data-language-uk="Sleeping" >Slapen</button>
+            <button type="button" class="ui button column" data-item="P-00-XX-06" data-language-nl="Dommelen" data-language-uk="Dozing" >Dommelen</button>
+            <button type="button" class="ui button column" data-item="P-XX-XX-XX" data-language-nl="Anders" data-language-uk="Other" >Anders</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui card">
+        <div class="content">
+            <a class="ui blue ribbon label" >
+              <span data-language-nl="Activiteit (ADL)" data-language-uk="Activity (ADL)">Activiteit (ADL)</span>
+            </a>
+          <div id="activiteit" class="ui three column grid">
+                <button type="button" class="ui button column" data-item="I-01-XX-01" data-language-nl="Object gebruiken" data-language-uk="Using object" >Object gebruiken</button>
+                <button type="button" class="ui button column" data-item="I-01-XX-02" data-language-nl="Eten" data-language-uk="Eating" >Eten</button>
+                <button type="button" class="ui button column" data-item="I-01-XX-03" data-language-nl="Drinken" data-language-uk="Drinking" >Drinken</button>
+                <button type="button" class="ui button column" data-item="I-01-XX-04" data-language-nl="Social interactie" data-language-uk="Social interaction" >Sociale interactie</button>
+                <button type="button" class="ui button column" data-item="I-01-XX-05" data-language-nl="Verzorging" data-language-uk="Nursing" >Verzorging</button>
+                <button type="button" class="ui button column" data-item="I-01-XX-06" data-language-nl="Toiletgang" data-language-uk="Toileting" >Toiletgang</button>
+                <button type="button" class="ui button column" data-item="I-01-XX-07" data-language-nl="Douchen" data-language-uk="Showering" >Douchen</button>
+                <button type="button" class="ui button column" data-item="I-XX-XX-XX" data-language-nl="Anders" data-language-uk="Other" >Anders</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui card">
+        <div class="content">
+            <a class="ui blue ribbon label" >
+              <span data-language-nl="Geluid" data-language-uk="Sound">Geluid</span>
+            </a>
+          <div id="geluid" class="ui three column grid">
+            <button type="button" class="ui button column" data-item="P-01-XX-01" data-language-nl="Schreeuwen" data-language-uk="Shouting" >Schreeuwen</button>
+            <button type="button" class="ui button column" data-item="P-01-XX-02" data-language-nl="Lachen" data-language-uk="Laughing" >Lachen</button>
+            <button type="button" class="ui button column" data-item="P-01-XX-03" data-language-nl="Zingen" data-language-uk="Singing" >Zingen</button>
+            <button type="button" class="ui button column" data-item="P-01-XX-04" data-language-nl="Huilen" data-language-uk="Crying" >Huilen</button>
+            <button type="button" class="ui button column" data-item="P-01-XX-05" data-language-nl="Repetitie" data-language-uk="Repetitive" >Repetitie</button>
+            <button type="button" class="ui button column" data-item="P-XX-XX-XX" data-language-nl="Anders" data-language-uk="Other" >Anders</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui card">
+        <div class="content">
+            <a class="ui blue ribbon label" >
+              <span data-language-nl="Beweging" data-language-uk="Movement">Beweging</span>
+            </a>
+          <div id="beweging" class="ui three column grid">
+            <button type="button" class="ui button column" data-item="P-01-XX-06" data-language-nl="Klappen" data-language-uk="Clapping" >Klappen</button>
+            <button type="button" class="ui button column" data-item="P-01-XX-07" data-language-nl="Wrijven" data-language-uk="Rubbing" >Wrijven</button>
+            <button type="button" class="ui button column" data-item="P-01-XX-08" data-language-nl="Tikken" data-language-uk="Tapping" >Tikken</button>
+            <button type="button" class="ui button column" data-item="P-01-XX-09" data-language-nl="Schommelen" data-language-uk="Swinging" >Schommelen</button>
+            <button type="button" class="ui button column" data-item="P-01-XX-10" data-language-nl="Aan/uitkleden" data-language-uk="Dressing/Undressing" >Aan/uitkleden</button>
+            <button type="button" class="ui button column" data-item="P-01-XX-11" data-language-nl="Slaan" data-language-uk="Beating" >Slaan</button>
+            <button type="button" class="ui button column" data-item="P-01-XX-12" data-language-nl="Duwen" data-language-uk="Pushing" >Duwen</button>
+            <button type="button" class="ui button column" data-item="P-01-XX-13" data-language-nl="Schoppen" data-language-uk="Kicking" >Schoppen</button>
+            <button type="button" class="ui button column" data-item="P-01-XX-14" data-language-nl="Schudden" data-language-uk="Shaking" >Schudden</button>
+            <button type="button" class="ui button column" data-item="P-01-XX-15" data-language-nl="Plukken" data-language-uk="Picking" >Plukken</button>
+            <button type="button" class="ui button column" data-item="P-XX-XX-XX" data-language-nl="Anders" data-language-uk="Other" >Anders</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui card">
+        <div class="content">
+            <a class="ui blue ribbon label" >
+              <span data-language-nl="gebeurtenis" data-language-uk="Event">Gebeurtenis</span>
+            </a>
+          <div id="gebeurtenis"  class="ui three column grid">
+            <button type="button" class="ui button column" data-item="E-03-XX-01" data-language-nl="Iemand komt binnen" data-language-uk="Someone enters" >Iemand komt binnen</button>
+            <button type="button" class="ui button column" data-item="E-03-XX-02" data-language-nl="Iemand gaat weg" data-language-uk="Someone leaves" >Iemand gaat weg</button>
+            <button type="button" class="ui button column" data-item="E-03-01-01" data-language-nl="Radio aan" data-language-uk="Radion on" >Radio aan</button>
+            <button type="button" class="ui button column" data-item="E-03-01-02" data-language-nl="Radio uit" data-language-uk="Radio off" >Radio uit</button>
+            <button type="button" class="ui button column" data-item="E-03-02-01" data-language-nl="TV aan" data-language-uk="TV on" >Tv aan</button>
+            <button type="button" class="ui button column" data-item="E-03-02-02" data-language-nl="TV uit" data-language-uk="`TV off" >Tv uit</button>
+            <button type="button" class="ui button column" data-item="E-03-02-03" data-language-nl="Hard geluid" data-language-uk="Loud noise" >Hard geluid</button>
+            <button type="button" class="ui button column" data-item="E-03-XX-03" data-language-nl="Gedrag medebewoner veranderd" data-language-uk="Changing behaviour" >Gedrag medebewoner veranderd</button>
+            <button type="button" class="ui button column" data-item="E-XX-XX-XX" data-language-nl="Anders" data-language-uk="Other" >Anders</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </body>
+</html>

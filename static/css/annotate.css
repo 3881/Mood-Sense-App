@@ -1,48 +1,90 @@
-    .slider {
-      -webkit-appearance: none;
-      width: 100%;
-      height: 10px;
-      border-radius: 5px;
-      background: green;
-      outline: none;
-      opacity: 0.7;
-      -webkit-transition: .2s;
-      transition: opacity .2s;
-      margin: 1rem;
-    }
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background: green;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  margin: 1rem;
+}
 
-    .slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 25px;
-      height: 25px;
-      border-radius: 25px;
-      background: #000000;
-      cursor: pointer;
-    }
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+  background: #000000;
+  cursor: pointer;
+}
 
-    body {
-      padding: 1rem;
-    }
+body {
+  padding: 1rem;
+}
 
-    .title {
-      text-align: center;
-    }
+.title {
+  text-align: center;
+}
 
-    .recordbutton {
-      border-radius: 100%;
-      background-color: green;
-      position: absolute;
-      top: 0.5rem;
-      right: 1rem;
-      margin: 1rem;
-      border-width: 5px;
-      border-color: black;
-      display: block;
-      width: 50px;
-      height: 50px;
-    }
+#recordbutton {
+  /* border-radius: 100%; */
+  /* background-color: green; */
+  /* position: absolute; */
+  /* top: 0.5rem;
+  right: 1rem;
+  margin: 1rem;
+  border-width: 5px;
+  border-color: black; */
+  /* display: block;
+  width: 50px;
+  height: 50px; */
+}
 
-    .ui.button {
-      margin-bottom: 0.5rem;
-    }
+#recordbutton {
+  align-items: center;
+}
+
+#recordbutton > #rec_icon.circle {
+  color: red;
+}
+
+#recordbutton > #rec_icon.stop {
+  color: black;
+}
+
+#recordbutton:has(> #rec_icon.stop) {
+  box-shadow: 0px 0px 10px red inset;
+}
+
+
+.ui.button {
+  margin: 3px;
+}
+
+body {
+  margin: 40px;
+}
+
+.ui.cards > .card {
+  margin-left: 12px;
+  width: 400px;
+}
+
+.ui.ribbon.label {
+  margin-bottom: 10px;
+}
+
+.ui.menu .item {
+  flex: auto;
+}
+
+.ui.grid  {
+  margin: 10px;
+}
+
+.ui[class*="three column"].grid > .column:not(.row) {
+    width: 31%;
+}
