@@ -1,6 +1,7 @@
 import time
 import sqlite3
 import socket
+import datetime
 from flask import Flask, request, render_template, jsonify
 
 app = Flask(__name__)
@@ -45,12 +46,23 @@ def get_local_ip():
 @app.route('/')
 def annotate():
     host_url = f"http://{get_local_ip()}:8100/"
-    return render_template("annotate.html", hostname=host_url)
+    ip = request.remote_addr
+    timestamp = int(time.time() * 1_000_000_000)
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute(
+        "INSERT INTO annotations (ip, timestamp, value, action, type) VALUES (?, ?, ?, ?, ?)",
+        (ip, timestamp, 'start', '', 'session'),
+    )
+    conn.commit()
+    conn.close()
+    output = datetime.datetime.fromtimestamp(time.time()).strftime("%Y-%m-%d %H:%M:%S")
+    return render_template("annotate.html", hostname=host_url, ip=ip, time=output)
 
-@app.route('/en')
-def annotate_en():
-    host_url = f"http://{get_local_ip()}:8100/"
-    return render_template("annotate-en.html", hostname=host_url)
+# @app.route('/en')
+# def annotate_en():
+#     host_url = f"http://{get_local_ip()}:8100/"
+#     return render_template("annotate-en.html", hostname=host_url)
 
 @app.route('/dashboard')
 def dashboard():
@@ -84,7 +96,7 @@ def post():
 @app.route('/groups', methods=['GET'])
 def groups():
     conn = sqlite3.connect(DB_PATH)
-    c = conn.execute("SELECT DISTINCT ip FROM annotations;")
+    c = conn.execute("SELECT id,  ip , strftime(\"%d-%m-%Y %H:%M\", datetime(timestamp / 1000000000, \'unixepoch\')) as time FROM annotations where type = 'session';")
     data = c.fetchall()
     response = jsonify(data)
     conn.close()
@@ -92,19 +104,23 @@ def groups():
 
 @app.route('/annotations', methods=['GET'])
 def annotations():
-    ip = request.args.get('ip')
+    id = request.args.get('id')
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    c.execute("SELECT id, ip,  strftime(\"%d-%m-%Y %H:%M:%S\", datetime(timestamp / 1000000000, \'unixepoch\')) as time, value, action, type from annotations WHERE ip = ?;",(ip,))
+    c.execute("SELECT * FROM annotations WHERE ip = (SELECT ip FROM annotations WHERE id=?) AND type='session' AND id>=? ORDER BY timestamp LIMIT 2;",(id,id))
+    row = c.fetchone()
+    ip = row[1]
+    start = row[2]
+    row = c.fetchone()
+    if row == None:
+        end = int(time.time() * 1_000_000_000)
+    else:
+        end = row[2]
+    c.execute("SELECT id, ip,  strftime(\"%d-%m-%Y %H:%M:%S\", datetime(timestamp / 1000000000, \'unixepoch\')) as time, value, action, type FROM annotations WHERE timestamp > ? AND timestamp < ? AND ip = ?", (start, end , ip))
     data = c.fetchall()
     response = jsonify(data)
     conn.close()
     return response
-
-@app.route('/test')
-def test():
-    return "Hello WOrld"
-
 
 @app.route('/recording', methods=['POST'])
 def record():

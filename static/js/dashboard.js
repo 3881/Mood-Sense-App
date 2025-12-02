@@ -12,7 +12,7 @@ function GetGroups() {
             let list_data = JSON.parse(xmlHttp.responseText);
             for(let i = 0; i < list_data.length; i++){
                 let option = document.createElement("option");
-                option.innerHTML = list_data[i][0];
+                option.innerHTML = list_data[i][1] + " - " + list_data[i][2];
                 option.value = list_data[i][0];
                 ip.appendChild(option);
             }
@@ -23,7 +23,7 @@ function GetGroups() {
     xmlHttp.send(null);
 }
 
-function GetAnnotations(ip){
+function GetAnnotations(id){
     const fields = ['id', 'ip', 'time', 'code', 'action', 'type'];
     const actions = ['off','on','switch'];
     var xmlHttp = new XMLHttpRequest();
@@ -51,6 +51,6 @@ function GetAnnotations(ip){
             }
         }
     };
-    xmlHttp.open("GET", "/annotations?ip=" + ip, true);
+    xmlHttp.open("GET", "/annotations?id=" + id, true);
     xmlHttp.send(null);
 }
